@@ -1,0 +1,24 @@
+config:
+    name: 个股研报接口
+teststeps:
+    request:
+        url: http://114.80.155.47:22013/v2/stockreportlist
+        method: GET
+        headers:
+            Token: MitakeWeb
+            Param: -1,,300
+            Symbol: 00700.hk
+            src: d
+        params:
+        body:
+
+    validate:
+    -   eq:
+        - status_code
+        - 200
+    -   eq:
+        - body['Cnt']
+        - 300
+    -   in:
+        - body['List'][3]['ID']
+        - 00700.hk
