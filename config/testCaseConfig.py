@@ -7,7 +7,7 @@
 FILE= '../testCase/excels/接口.xlsx'
 
 #用例文件类型，该框架中支持yaml、excel两种
-FILE_TYPE = 'yaml'
+FILE_TYPE = 'excel'
 
 #用例文件类型为excel时此参数有效，此参数为用例所在sheet页,当需要在多个sheet中匹配时，可传入sheetName列表
 SHEET_NAME = None
@@ -31,4 +31,5 @@ FUZZY = True
 ALL = True
 
 #用例文件为excel时此参数有效，为False时，使用excel行序号作为用例标识，为True时，使用用例ID作为用例标识
-USE_CASE_ID = False
+#ALL为true时，该参数必须为True
+USE_CASE_ID = True
