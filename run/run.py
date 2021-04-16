@@ -23,7 +23,7 @@ if __name__ == '__main__':
     for temp in unittest.TestLoader().getTestCaseNames(TestCaseFormExcel):
         suit.addTest(TestCaseFormExcel(temp))
     now = time.strftime('%Y-%m-%d_%H-%M-%S')
-    reportname = '../reports' + '\\' + 'TestResult_' + now + '.html'
+    reportname = '../reports/TestResult_' + now + '.html'
     with open(reportname, 'wb') as f:
         runner = HTMLTestRunner.HTMLTestReport(
             stream=f,

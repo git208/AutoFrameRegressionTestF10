@@ -88,6 +88,14 @@ class ParseExcel:
         _ = self.data_process('params')
         return json.loads(_) if _ != None else None
 
+    def get_auto_params(self):
+        _ = self.data_process('auto_params')
+        return json.loads(_) if _ != None else None
+
+    def get_market(self):
+        _ = self.data_process('market')
+        return json.loads(_) if _ != None else None
+
     def get_body(self):
         _ = self.get_type().lower()
         print()
