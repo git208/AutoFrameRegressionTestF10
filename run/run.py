@@ -5,7 +5,7 @@ import unittest
 
 from common import HTMLTestRunner
 
-from common.test_cases_driver import TestCaseFormExcel
+import testCase
 from common.test_cases_select import testCaseSelect
 import config.testCaseConfig as TCC
 
@@ -19,9 +19,8 @@ if __name__ == '__main__':
         isFuzzy=TCC.FUZZY,
         isAll=TCC.ALL
     )
-    suit = unittest.TestSuite()
-    for temp in unittest.TestLoader().getTestCaseNames(TestCaseFormExcel):
-        suit.addTest(TestCaseFormExcel(temp))
+    suit = unittest.defaultTestLoader.discover('../testCase','*excel.py')
+
     now = time.strftime('%Y-%m-%d_%H-%M-%S')
     reportname = '../reports/TestResult_' + now + '.html'
     with open(reportname, 'wb') as f:

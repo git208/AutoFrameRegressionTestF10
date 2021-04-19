@@ -44,6 +44,7 @@ class FileToCase():
     def requests(self,environment = None):
         if environment != None:
             self.url = f'http://{environment}{self.path}'
+            print(self.url)
 
         if self.method == 'get':
             response = requests.request(method='get',url=self.url,headers=self.headers,params=self.params)

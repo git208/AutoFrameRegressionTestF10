@@ -4,7 +4,7 @@
 
 
 #测试用例文件的路径，可以是相对路径或绝对路径
-FILE= '../testCase/excels/接口.xlsx'
+FILE= '../testCase/excels/F10用例(自动生成).xlsx'
 
 #用例文件类型，该框架中支持yaml、excel两种
 FILE_TYPE = 'excel'
@@ -24,7 +24,7 @@ SHEET_NAME = None
 '''
 TESTCASE_MATCHING = ['01']
 
-#是否进行模糊匹配
+#是否进行模糊匹配,ALL为True时该参数无效
 FUZZY = True
 
 #为True时执行文件中所有用例
@@ -32,4 +32,4 @@ ALL = True
 
 #用例文件为excel时此参数有效，为False时，使用excel行序号作为用例标识，为True时，使用用例ID作为用例标识
 #ALL为true时，该参数必须为True
-USE_CASE_ID = True
+USE_CASE_ID = False

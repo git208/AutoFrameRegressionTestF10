@@ -17,18 +17,11 @@ class ParseExcel:
             :param sheet_name: 用例所在的sheet页
             :param use_case_id: 是否使用用例ID来进行驱动，置为False将使用用例序号进行驱动，默认使用用例序号进行驱动
         """
+        self.data = None
         self.filepath = file
         self.sheetname = sheet_name
-        if use_case_id == False:
-            if case_identifier == None:
-                self.data = self.get_excel()[0][0]
-            else:
-                self.data = self.get_excel()[0][case_identifier - 2]
-        else:
-            if case_identifier != None:
-                self.data = self.get_excel()[1][case_identifier]
-            else:
-                self.data = {}
+        self.case_identifier = case_identifier
+        self.use_case_id = use_case_id
 
     def get_excel(self):
         """
@@ -49,11 +42,25 @@ class ParseExcel:
             case_dic[_['test_case_id']] = _
         return case_list,case_dic
 
+    def get_data(self):
+        if self.use_case_id == False:
+            if self.case_identifier == None:
+                self.data = self.get_excel()[0][0]
+            else:
+                self.data = self.get_excel()[0][self.case_identifier - 2]
+        else:
+            if self.case_identifier != None:
+                self.data = self.get_excel()[1][self.case_identifier]
+            else:
+                self.data = {}
+
     def get_sheetnames(self):
         wb = openpyxl.load_workbook(self.filepath)
         return wb.sheetnames
 
     def data_process(self, key):
+        if self.data == None:
+            self.get_data()
         if key in self.data.keys():
             if self.data[key] == "":
                 return None
@@ -88,22 +95,33 @@ class ParseExcel:
         _ = self.data_process('params')
         return json.loads(_) if _ != None else None
 
-    def get_auto_params(self):
-        _ = self.data_process('auto_params')
-        return json.loads(_) if _ != None else None
-
-    def get_market(self):
-        _ = self.data_process('market')
-        return json.loads(_) if _ != None else None
+    # def get_auto_params(self):
+    #     _ = self.data_process('auto_params')
+    #     return json.loads(_) if _ != None else None
+    #
+    # def get_market(self):
+    #     _ = self.data_process('market')
+    #     return json.loads(_) if _ != None else None
+    #
+    # def get_interface_name(self):
+    #     _ = self.data_process('interface_name')
+    #     return json.loads(_) if _ != None else None
+    #
+    # def get_interface_abbreviation(self):
+    #     _ = self.data_process('interface_abbreviation')
+    #     return json.loads(_) if _ != None else None
 
     def get_body(self):
-        _ = self.get_type().lower()
-        print()
-        __ = self.data_process('body')
-        if _ == 'form-data' or _ == 'x-www-form-urlencoded' or _ == 'json':
-            return json.loads(__) if _ != None else None
+        try:
+            _ = self.get_type().lower()
+        except:
+            return None
         else:
-            return __
+            __ = self.data_process('body')
+            if _ == 'form-data' or _ == 'x-www-form-urlencoded' or _ == 'json':
+                return json.loads(__) if _ != None else None
+            else:
+                return __
 
 
 if __name__ == '__main__':
