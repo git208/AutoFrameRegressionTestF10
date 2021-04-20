@@ -30,17 +30,20 @@ def testCaseSelect(file,file_type='excel',
                             if __ in _:
                                 temp_list.append(_)
                 elif file_type.lower() == 'excel':
-                    if type(sheet_name) == list:
-                        for temp in sheet_name:
-                            for _ in [i for i in ParseExcel(file,sheet_name=temp).get_excel()[1].keys()]:
+                    if sheet_name != None:
+                        if type(sheet_name) == list:
+                            for temp in sheet_name:
+                                for _ in [i for i in ParseExcel(file,sheet_name=temp).get_excel()[1].keys()]:
+                                    for __ in testcase_matching:
+                                        if __ in _:
+                                            temp_list.append((sheet_name,_))
+                        else:
+                            for _ in [i for i in ParseExcel(file, sheet_name=sheet_name).get_excel()[1].keys()]:
                                 for __ in testcase_matching:
                                     if __ in _:
-                                        temp_list.append((sheet_name,_))
+                                        temp_list.append((sheet_name, _))
                     else:
-                        for _ in [i for i in ParseExcel(file, sheet_name=sheet_name).get_excel()[1].keys()]:
-                            for __ in testcase_matching:
-                                if __ in _:
-                                    temp_list.append((sheet_name, _))
+                        pass
                 else:
                     LogCustom().logger().error('文件类型非yaml、excel，创建用例执行列表失败')
 
@@ -50,9 +53,14 @@ def testCaseSelect(file,file_type='excel',
                 a.write(json.dumps(os.listdir('../testCase/yamls'), ensure_ascii=False, indent=2))
             elif file_type.lower() == 'excel':
                 temp_list = []
+
+                i = 0
                 for _ in  ParseExcel(file).get_sheetnames():
-                    for __ in ParseExcel(file,sheet_name=_).get_excel()[1].keys():
+                    B = ParseExcel(file, sheet_name=_).get_excel()[1].keys()
+                    for __ in B:
+                        i+=1
                         temp_list.append((_,__))
+                        print(f'总共{len(B)},当前{i},数据{(_,__)}')
                 a.write(json.dumps(temp_list, ensure_ascii=False, indent=2))
 
 # if __name__ == '__main__':

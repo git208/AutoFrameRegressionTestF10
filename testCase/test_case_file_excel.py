@@ -10,7 +10,7 @@ if ALL == True:
     USE_CASE_ID = True
 
 ENVIRONMENT1 = '114.80.155.57:22013'
-ENVIRONMENT2 = '114.80.155.47:22013'
+ENVIRONMENT2 = '58.63.252.23:22013'
 
 @ddt
 class TestCaseFormExcel(unittest.TestCase):
@@ -19,7 +19,7 @@ class TestCaseFormExcel(unittest.TestCase):
         pass
 
     @file_data('../source/testCaseDriver.json')
-    @unpack
+    # @unpack
     def test_01(self, case):
         # print(case)
         case = FileToCase(
@@ -33,6 +33,7 @@ class TestCaseFormExcel(unittest.TestCase):
         response1 = case.requests(ENVIRONMENT1)
 
         response2 = case.requests(ENVIRONMENT2)
+
 
         print(ENVIRONMENT1 + '\n' + json.dumps(response1.json(), ensure_ascii=False, indent=2))
         print(ENVIRONMENT2 + '\n' + json.dumps(response2.json(), ensure_ascii=False, indent=2))

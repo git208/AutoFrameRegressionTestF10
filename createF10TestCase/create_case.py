@@ -24,9 +24,11 @@ class CreateCase(ParseExcel):
         return case_list
 
     def createCaseForF10(self):
+        path_stocks_dict = {}
         for param_set in self.get_excel():
             if param_set['interface_abbreviation'] == None or param_set['interface_name'] == None:
                 continue
+
             print(f'开始创建用例：{param_set["interface_name"]}')
             if param_set['interface_name'] in self.wb.sheetnames:
                 self.ws = self.wb[param_set['interface_name']]
@@ -107,8 +109,19 @@ class CreateCase(ParseExcel):
                 if param_set['auto_param_structure'] == None:
 
                     for _ in param_set['market'].split(','):
-                        auto_stockdic_list = availableStock(param_set['path'], param_set['headers'],
-                                                            param_set['auto_params'], _ ,param_set['stock_search_site'])
+                        if param_set['path'] in path_stocks_dict.keys():
+                            if _ in path_stocks_dict[param_set['path']].keys():
+                                auto_stockdic_list = path_stocks_dict[param_set['path']][_]
+                            else:
+                                auto_stockdic_list = availableStock(param_set['path'], param_set['headers'],
+                                                                    param_set['auto_params'], _,
+                                                                    param_set['stock_search_site'])
+                                path_stocks_dict.update({param_set['path']: {_: auto_stockdic_list}})
+                        else:
+                            auto_stockdic_list = availableStock(param_set['path'], param_set['headers'],
+                                                                param_set['auto_params'], _ ,param_set['stock_search_site'])
+                            path_stocks_dict.update({param_set['path']:{_:auto_stockdic_list}})
+
                         i = 0
                         max_row = self.ws.max_row
                         for __ in auto_stockdic_list:
@@ -161,8 +174,20 @@ class CreateCase(ParseExcel):
 
 
                     for _ in param_set['market'].split(','):
-                        auto_stockdic_list = availableStock(param_set['path'], param_set['headers'],
-                                                            param_set['auto_params'], _ ,param_set['stock_search_site'])
+                        if param_set['path'] in path_stocks_dict.keys():
+                            if _ in path_stocks_dict[param_set['path']].keys():
+                                auto_stockdic_list = path_stocks_dict[param_set['path']][_]
+                            else:
+                                auto_stockdic_list = availableStock(param_set['path'], param_set['headers'],
+                                                                    param_set['auto_params'], _,
+                                                                    param_set['stock_search_site'])
+                                path_stocks_dict.update({param_set['path']: {_: auto_stockdic_list}})
+                        else:
+                            auto_stockdic_list = availableStock(param_set['path'], param_set['headers'],
+                                                                param_set['auto_params'], _,
+                                                                param_set['stock_search_site'])
+                            path_stocks_dict.update({param_set['path']: {_: auto_stockdic_list}})
+
                         i = 0
                         max_row = self.ws.max_row
                         for __ in auto_stockdic_list:
