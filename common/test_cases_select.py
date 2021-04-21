@@ -6,7 +6,7 @@ from common.parse_excel import ParseExcel
 
 def testCaseSelect(file,file_type='excel',
                    testcase_matching=None,
-                   sheet_name=None,
+                   sheet_names=None,
                    isFuzzy=False,
                    isAll=False):
     """
@@ -29,21 +29,25 @@ def testCaseSelect(file,file_type='excel',
                         for __ in testcase_matching:
                             if __ in _:
                                 temp_list.append(_)
+
                 elif file_type.lower() == 'excel':
-                    if sheet_name != None:
-                        if type(sheet_name) == list:
-                            for temp in sheet_name:
-                                for _ in [i for i in ParseExcel(file,sheet_name=temp).get_excel()[1].keys()]:
-                                    for __ in testcase_matching:
-                                        if __ in _:
-                                            temp_list.append((sheet_name,_))
+                    excel = ParseExcel(file)
+                    excel.get_excel_new()
+                    if sheet_names != None:
+                        if type(sheet_names) == list:
+                            for sheet_name in sheet_names:
+                                for _ in excel.excel_data[sheet_name][1].keys:
+                                    temp_list.append((sheet_name,_))
                         else:
-                            for _ in [i for i in ParseExcel(file, sheet_name=sheet_name).get_excel()[1].keys()]:
-                                for __ in testcase_matching:
+                            for _ in excel.excel_data[sheet_names][1].keys:
+                                temp_list.append((sheet_names, _))
+                    else:
+                        for sheet_name in testcase_matching.keys():
+                            for __ in excel.excel_data[sheet_name][1].keys:
+                                for _ in testcase_matching[sheet_name]:
                                     if __ in _:
                                         temp_list.append((sheet_name, _))
-                    else:
-                        pass
+
                 else:
                     LogCustom().logger().error('文件类型非yaml、excel，创建用例执行列表失败')
 
@@ -53,14 +57,18 @@ def testCaseSelect(file,file_type='excel',
                 a.write(json.dumps(os.listdir('../testCase/yamls'), ensure_ascii=False, indent=2))
             elif file_type.lower() == 'excel':
                 temp_list = []
-
+                excel = ParseExcel(file)
+                excel.get_excel_new()
                 i = 0
-                for _ in  ParseExcel(file).get_sheetnames():
-                    B = ParseExcel(file, sheet_name=_).get_excel()[1].keys()
+                A = excel.excel_data.keys()
+                for _ in A:
+                    i += 1
+                    j = 0
+                    B = excel.excel_data[_][1].keys()
                     for __ in B:
-                        i+=1
+                        j += 1
                         temp_list.append((_,__))
-                        print(f'总共{len(B)},当前{i},数据{(_,__)}')
+                        print(f'总共{len(A)}个接口,当前为第{i}个接口，总共包含{len(B)}条用例,选择至第{j}条用例，数据{(_,__)}')
                 a.write(json.dumps(temp_list, ensure_ascii=False, indent=2))
 
 # if __name__ == '__main__':

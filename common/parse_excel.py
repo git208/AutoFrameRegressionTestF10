@@ -60,6 +60,7 @@ class ParseExcel:
             for _ in case_list:
                 case_dic[_['test_case_id']] = _
             self.excel_data.update({sheetname:[case_list, case_dic]})
+        return self.excel_data
 
     def get_data(self):
         if self.excel_data == {}:
