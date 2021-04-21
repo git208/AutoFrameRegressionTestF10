@@ -15,24 +15,23 @@ ENVIRONMENT2 = '58.63.252.23:22013'
 @ddt
 class TestCaseFormExcel(unittest.TestCase):
 
-    def setUp(self) -> None:
-        pass
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.case = FileToCase(
+            file=FILE,
+            file_type=FILE_TYPE,
+            use_case_id=USE_CASE_ID
+        )
 
     @file_data('../source/testCaseDriver.json')
     # @unpack
     def test_01(self, case):
         # print(case)
-        case = FileToCase(
-            file=FILE,
-            file_type=FILE_TYPE,
-            sheet_name=case[0],
-            case_identifier=case[1],
-            use_case_id=USE_CASE_ID
-        )
-        print(case.testCaseName+'\n')
-        response1 = case.requests(ENVIRONMENT1)
+        self.case.select_test(case[0],case[1])
+        print(self.case.testCaseName+'\n')
+        response1 = self.case.requests(ENVIRONMENT1)
 
-        response2 = case.requests(ENVIRONMENT2)
+        response2 = self.case.requests(ENVIRONMENT2)
 
 
         print(ENVIRONMENT1 + '\n' + json.dumps(response1.json(), ensure_ascii=False, indent=2))

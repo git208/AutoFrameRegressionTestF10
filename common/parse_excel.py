@@ -19,9 +19,10 @@ class ParseExcel:
         """
         self.data = None
         self.filepath = file
-        self.sheetname = sheet_name
+        self.sheet_name = sheet_name
         self.case_identifier = case_identifier
         self.use_case_id = use_case_id
+        self.excel_data = {}
 
     def get_excel(self):
         """
@@ -29,10 +30,11 @@ class ParseExcel:
         :return:
         """
         wb = openpyxl.load_workbook(self.filepath)
-        if self.sheetname is None:
+
+        if self.sheet_name is None:
             ws = wb.active
         else:
-            ws = wb[self.sheetname]
+            ws = wb[self.sheet_name]
         head_tuple = tuple(ws.iter_rows(max_row=1, values_only=True))[0]
         case_list = []
         case_dic = {}
@@ -42,15 +44,35 @@ class ParseExcel:
             case_dic[_['test_case_id']] = _
         return case_list,case_dic
 
+    def get_excel_new(self):
+        """
+        获取excel中的用例
+        :return:
+        """
+        wb = openpyxl.load_workbook(self.filepath)
+        for sheetname in wb.sheetnames:
+            ws = wb[sheetname]
+            head_tuple = tuple(ws.iter_rows(max_row=1, values_only=True))[0]
+            case_list = []
+            case_dic = {}
+            for other_tuple in tuple(ws.iter_rows(min_row=2, values_only=True)):
+                case_list.append(dict(zip(head_tuple, other_tuple)))
+            for _ in case_list:
+                case_dic[_['test_case_id']] = _
+            self.excel_data.update({sheetname:[case_list, case_dic]})
+
     def get_data(self):
+        if self.excel_data == {}:
+            self.get_excel_new()
+
         if self.use_case_id == False:
             if self.case_identifier == None:
-                self.data = self.get_excel()[0][0]
+                self.data = self.excel_data[self.sheet_name][0][0]
             else:
-                self.data = self.get_excel()[0][self.case_identifier - 2]
+                self.data = self.excel_data[self.sheet_name][0][self.case_identifier - 2]
         else:
             if self.case_identifier != None:
-                self.data = self.get_excel()[1][self.case_identifier]
+                self.data = self.excel_data[self.sheet_name][1][self.case_identifier]
             else:
                 self.data = {}
 

@@ -29,17 +29,31 @@ class FileToCase():
             self.body = self.handle.get_body()
         elif file_type.lower() == 'excel':
             self.handle = ParseExcel(file,**kwargs)
-            self.testCaseID = self.handle.get_test_case_id()
-            self.testCaseName = self.handle.get_test_case_name()
-            self.url = self.handle.get_url()
-            self.method = self.handle.get_method().lower() if self.handle.get_method() != None else None
-            self.type = self.handle.get_type().lower() if self.handle.get_type() != None else None
-            self.headers = self.handle.get_headers()
-            self.params = self.handle.get_params()
-            self.body = self.handle.get_body()
-            self.path = self.handle.get_path()
+            self.testCaseID = None
+            self.testCaseName = None
+            self.url = None
+            self.method = None
+            self.type = None
+            self.headers = None
+            self.params = None
+            self.body = None
+            self.path = None
         else:
             LogCustom().logger().error('文件类型须为yaml、excel类型')
+
+    def select_test(self,sheetname,identifier):
+        self.handle.sheet_name = sheetname
+        self.handle.case_identifier = identifier
+        self.testCaseID = self.handle.get_test_case_id()
+        self.testCaseName = self.handle.get_test_case_name()
+        self.url = self.handle.get_url()
+        self.method = self.handle.get_method().lower() if self.handle.get_method() != None else None
+        self.type = self.handle.get_type().lower() if self.handle.get_type() != None else None
+        self.headers = self.handle.get_headers()
+        self.params = self.handle.get_params()
+        self.body = self.handle.get_body()
+        self.path = self.handle.get_path()
+
 
     def requests(self,environment = None):
         if environment != None:
@@ -107,6 +121,7 @@ class FileToCase():
             LogCustom().logger().error(f'用例[{self.testCaseName}]请求方式有误，请检查用例')
             response = None
         return response
+
 
 
 if __name__ == '__main__':

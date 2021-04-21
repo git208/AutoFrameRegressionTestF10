@@ -8,18 +8,22 @@ from common import HTMLTestRunner
 import testCase
 from common.test_cases_select import testCaseSelect
 import config.testCaseConfig as TCC
+from testCase.test_case_file_excel import TestCaseFormExcel
 
 
 if __name__ == '__main__':
-    testCaseSelect(
-        file=TCC.FILE,
-        file_type=TCC.FILE_TYPE,
-        testcase_matching=TCC.TESTCASE_MATCHING,
-        sheet_name=TCC.SHEET_NAME,
-        isFuzzy=TCC.FUZZY,
-        isAll=TCC.ALL
-    )
-    suit = unittest.defaultTestLoader.discover('../testCase','*excel.py')
+    # testCaseSelect(
+    #     file=TCC.FILE,
+    #     file_type=TCC.FILE_TYPE,
+    #     testcase_matching=TCC.TESTCASE_MATCHING,
+    #     sheet_name=TCC.SHEET_NAME,
+    #     isFuzzy=TCC.FUZZY,
+    #     isAll=TCC.ALL
+    # )
+    suit = unittest.TestSuite()
+    # suit = unittest.defaultTestLoader.discover('')
+    for temp in unittest.TestLoader().getTestCaseNames(TestCaseFormExcel):
+        suit.addTest(TestCaseFormExcel(temp))
 
     now = time.strftime('%Y-%m-%d_%H-%M-%S')
     reportname = '../reports/TestResult_' + now + '.html'

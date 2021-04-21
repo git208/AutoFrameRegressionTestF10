@@ -13,10 +13,10 @@ class CreateCase(ParseExcel):
 
     def get_excel(self):
         wb = openpyxl.load_workbook(self.filepath)
-        if self.sheetname is None:
+        if self.sheet_name is None:
             ws = wb.active
         else:
-            ws = wb[self.sheetname]
+            ws = wb[self.sheet_name]
         head_tuple = tuple(ws.iter_rows(max_row=1, values_only=True))[0]
         case_list = []
         for other_tuple in tuple(ws.iter_rows(min_row=2, values_only=True)):
