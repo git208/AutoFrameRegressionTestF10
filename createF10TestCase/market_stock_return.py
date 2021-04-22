@@ -1,6 +1,7 @@
 import json
 import requests
 from config.logConfig import LogCustom,logging
+from config.testCaseConfig import ENVIRONMENT3,MAX_BOUNDS,STOCK_NUMBER
 
 # environments = [
 #     'http://114.80.155.57:22013',
@@ -51,9 +52,9 @@ def availableStock(path,headers,key,maket,site):
             he = json.loads(headers)
             he.update({key:stock})
             try:
-                response = requests.request('get','http://114.80.155.57:22013'+path,headers=he)
+                response = requests.request('get','http://'+ENVIRONMENT3+path,headers=he)
             except:
-                LogCustom(logging.DEBUG).logger().error('dasdasdasdasda')
+                LogCustom().logger().error('生成用例时验证数据出错')
             else:
                 if path.split('/')[-1] in haveNumPathList:
                     try:
@@ -67,9 +68,9 @@ def availableStock(path,headers,key,maket,site):
                             available_stock_list.append({key: stock})
                     except:
                         pass
-                if len(available_stock_list) >= 10:
+                if len(available_stock_list) >= STOCK_NUMBER:
                     return available_stock_list
-        if i>=4:
+        if i>=MAX_BOUNDS/100-1:
             return available_stock_list
         i+=1
         if len(stock_list)<100:

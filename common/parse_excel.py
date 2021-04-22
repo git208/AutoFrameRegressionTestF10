@@ -82,8 +82,7 @@ class ParseExcel:
         return wb.sheetnames
 
     def data_process(self, key):
-        if self.data == None:
-            self.get_data()
+        self.get_data()
         if key in self.data.keys():
             if self.data[key] == "":
                 return None

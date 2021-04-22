@@ -35,3 +35,16 @@ ALL = True
 #用例文件为excel时此参数有效，为False时，使用excel行序号作为用例标识，为True时，使用用例ID作为用例标识
 #ALL为true时，该参数必须为True
 USE_CASE_ID = False
+
+#需要对比数据的两个环境
+ENVIRONMENT1 = '114.80.155.57:22013'
+ENVIRONMENT2 = '58.63.252.23:22013'
+
+#该环境用于验证接口数据是否存在
+ENVIRONMENT3 = '58.63.252.23:22013'
+
+#最大查询范围（在某个分类代码下最多获取 MAX_BOUNDS 支股票进行选取有效股票，该参数必须为100的倍数）
+MAX_BOUNDS = 500
+
+#需要选取的有效股票代码数量
+STOCK_NUMBER = 10

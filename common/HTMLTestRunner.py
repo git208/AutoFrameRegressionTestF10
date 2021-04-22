@@ -657,7 +657,7 @@ a.popup_link:hover {
 <div id='ending'>
     <p align="center">
     Copyright &copy
-    <a href="http://github.com/git208" target="_blank"> WangHaiLong </a>
+    <a href="http://github.com/git208" target="_blank"> Mr.Wang </a>
     . All rights reserved.
     </p>    
 </div>
@@ -1270,8 +1270,8 @@ a.popup_link:hover {
     ENDING_TMPL = r"""
 <div id='ending'>
     <p align="center">
-    Copyright &copy 2016
-    <a href="http://blog.csdn.net/z_johnny" target="_blank"> HONGWEI </a>
+    Copyright &copy
+    <a href="http://github.com/git208" target="_blank"> Mr.Wang </a>
     Inc. All rights reserved.
     </p>
 </div>
@@ -1585,7 +1585,8 @@ class HTMLTestReport(Template_CN):
             else:
                 name = "%s.%s" % (cls.__module__, cls.__name__)
             doc = cls.__doc__ and cls.__doc__.split("\n")[0] or ""
-            desc = doc and '%s: %s' % (name, doc) or name
+            desc = name
+            # desc = doc and ('%s: %s' % (name, doc)) or name
             if self.IMAGES:
                 row = self.REPORT_CLASS_TMPL_IMAGES % dict(
                     style = ne > 0 and 'errorClass' or nf > 0 and 'failClass' or 'passClass',
@@ -1648,7 +1649,8 @@ class HTMLTestReport(Template_CN):
 
         name = t.id().split('.')[-1]
         doc = t.shortDescription() or ""
-        desc = doc and ('%s: %s' % (name, doc)) or name
+        desc = name
+        # desc = doc and ('%s: %s' % (name, doc)) or name
         if self.IMAGES:
             tmpl = has_output and self.REPORT_TEST_WITH_OUTPUT_TMPL_IMAGES or self.REPORT_TEST_NO_OUTPUT_TMPL_IMAGES
         else:
