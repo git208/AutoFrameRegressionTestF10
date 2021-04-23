@@ -11,14 +11,14 @@ import config.testCaseConfig as TCC
 
 
 if __name__ == '__main__':
-    # testCaseSelect(
-    #     file=TCC.FILE,
-    #     file_type=TCC.FILE_TYPE,
-    #     testcase_matching=TCC.TESTCASE_MATCHING,
-    #     sheet_names=TCC.SHEET_NAME,
-    #     isFuzzy=TCC.FUZZY,
-    #     isAll=TCC.ALL
-    # )
+    testCaseSelect(
+        file=TCC.FILE,
+        file_type=TCC.FILE_TYPE,
+        testcase_matching=TCC.TESTCASE_MATCHING,
+        sheet_names=TCC.SHEET_NAME,
+        isFuzzy=TCC.FUZZY,
+        isAll=TCC.ALL
+    )
 
     suit = unittest.defaultTestLoader.discover('../testCase','*excel.py')
 

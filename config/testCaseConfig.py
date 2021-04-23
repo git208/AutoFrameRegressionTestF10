@@ -17,8 +17,9 @@ SHEET_NAME = None
 
 当 FUZZY 为 True 时，将根据该参数列表中的所有关键字模糊匹配用例；
 示例：TESTCASE_MATCHING = ['01','GG',...]，将根据'01'和'GG'等去模糊匹配数据
+
 驱动文件为excel时：
-示例：TESTCASE_MATCHING = {{<sheetname0>:[<用例匹配项0>,<用例匹配项1>,...]},{<sheetname1>:[<用例匹配项0>,<用例匹配项1>,...]}...}
+示例：TESTCASE_MATCHING = [{<sheetname0>:[<用例匹配项0>,<用例匹配项1>,...]},{<sheetname1>:[<用例匹配项0>,<用例匹配项1>,...]}...]
 
 当 FUZZY 为 False 时，该参数列表中数据将作为用例驱动标识列表；
 示例：TESTCASE_MATCHING = [(<sheetname>,<用例标识>),(<sheetname>,<用例标识>),...]
@@ -48,3 +49,7 @@ MAX_BOUNDS = 500
 
 #需要选取的有效股票代码数量
 STOCK_NUMBER = 10
+
+#该参数用于确认自动创建用例的范围，默认为None，根据表格中所有部分创建用例；
+#当需要指定范围时该参数为列表，例：[2,12]，将根据表格中序号2～序号12的部分自动创建用例，闭区间，包含2、12
+CREATE_CASE_BOUNDS = None

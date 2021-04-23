@@ -1,13 +1,14 @@
 import openpyxl
 from common.parse_excel import ParseExcel
 import json
-from createF10TestCase.market_stock_return import availableStock
+from common.createF10TestCase.market_stock_return import availableStock
 
 class CreateCase(ParseExcel):
 
-    def __init__(self,file,**kwargs):
+    def __init__(self,file,bounds = None,**kwargs):
         super().__init__(file,kwargs)
         self.wb = openpyxl.Workbook()
+        self.bounds = bounds
         for _ in self.wb.sheetnames:
             self.wb.remove(self.wb[_])
 
@@ -24,8 +25,11 @@ class CreateCase(ParseExcel):
         return case_list
 
     def createCaseForF10(self):
-        path_stocks_dict = {}
-        for param_set in self.get_excel():
+        if self.bounds == None:
+            A = self.get_excel()
+        else:
+            A = self.get_excel()[self.bounds[0]-2:self.bounds[1]-1]
+        for param_set in A:
             if param_set['interface_abbreviation'] == None or param_set['interface_name'] == None:
                 continue
 
@@ -185,11 +189,10 @@ class CreateCase(ParseExcel):
                                 self.ws[f'g{max_row + i}'] = json.dumps(headers)
                                 self.ws[f'j{max_row + i}'] = _
 
-            # self.wb.create_sheet('你是傻吊')
-            # self.ws = self.wb['你是傻吊']
-            # self.ws['C6'] = 'lalala'
         self.wb.save('../testCase/excels/F10用例(自动生成1).xlsx')
 
 
 if __name__ == '__main__':
-    CreateCase('jiachao.xlsx').createCaseForF10()
+    # CreateCase('jiachao.xlsx').createCaseForF10()
+    a = [0,1,2,3,4,5,6,7,8,9,10]
+    print(a[0:5])
